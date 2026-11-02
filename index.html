@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Sprint · Week 5 Workspace · Reading, Research &amp; Citation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#143865;--blue:#1c4f8f;--gold:#d39f10;--dgold:#8c7535;
+  --sky:#edf2f9;--msky:#e1e8f2;--dsky:#c1cddd;--warm:#efe9d9;
+  --ink:#143865;--text:#2f4566;--paper:#ffffff;
+  --ok:#1f7a4d;--okbg:#e3f3ea;--bad:#a8322d;--badbg:#f8e4e2;
+  --head:'Montserrat',Arial,sans-serif;--body:'Libre Franklin',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:128px}
+body{margin:0;background:var(--sky);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55}
+h1,h2,h3,h4{font-family:var(--head);color:var(--ink);line-height:1.2;margin:0}
+p{margin:0 0 .6em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:3px solid var(--gold)}
+.topin{display:flex;align-items:center;gap:16px;padding:10px 20px;max-width:1180px;margin:0 auto;flex-wrap:wrap}
+.top img{height:34px;width:auto}
+.namebox{display:flex;align-items:center;gap:8px;flex:1;min-width:200px}
+.namebox label{font-weight:600;color:var(--ink);font-size:15px}
+.namebox input{flex:1;max-width:260px;border:2px solid var(--dsky);border-radius:8px;padding:6px 10px;background:var(--sky)}
+.prog{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink);font-weight:600}
+.bar{width:120px;height:10px;background:var(--msky);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.tbtn{border:0;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;background:var(--navy);color:#fff;font-size:14px}
+.tbtn.alt{background:var(--msky);color:var(--navy)}
+nav.acts{display:flex;gap:6px;overflow-x:auto;padding:0 20px 10px;max-width:1180px;margin:0 auto;scrollbar-width:thin}
+nav.acts a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--navy);background:var(--sky);border:2px solid var(--msky);padding:4px 10px;border-radius:99px;white-space:nowrap}
+nav.acts a.done{background:var(--navy);color:#fff;border-color:var(--navy)}
+nav.acts a.done::after{content:" ✓";color:var(--gold)}
+
+/* hero */
+.hero{background:var(--navy);color:#fff;padding:44px 0 40px}
+.hero h1{color:#fff;font-size:clamp(30px,5vw,46px);font-weight:800;margin:.25em 0 .3em}
+.hero .wk{font-family:var(--head);color:var(--gold);font-weight:700;font-size:15px;letter-spacing:.06em}
+.hero .sub{color:var(--dsky);font-size:19px;max-width:640px}
+.objs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:22px;padding:0;list-style:none;counter-reset:o}
+.objs li{background:rgba(255,255,255,.08);border-left:4px solid var(--gold);padding:10px 14px;border-radius:6px;font-size:15.5px;color:#e8eef7}
+.vocabbar{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.vocabbar span.l{font-weight:600;color:var(--gold);font-size:14px;margin-right:4px}
+.vw{font-size:13px;padding:3px 9px;border-radius:99px;border:1.5px solid rgba(255,255,255,.35);color:#dfe7f2}
+.vw.used{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:700}
+
+/* activity */
+section.act{background:var(--paper);border-radius:18px;margin:26px 0;padding:28px 30px 30px;border:1px solid var(--msky)}
+.ahead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-family:var(--head);font-size:12px;font-weight:700;padding:4px 12px;border-radius:99px}
+.tag.e{background:var(--gold);color:var(--navy)}
+.tag.s{background:var(--blue);color:#fff}
+.tag.a{background:var(--navy);color:var(--gold)}
+.mins{font-size:14px;color:var(--text);font-weight:600}
+.group{font-size:14px;color:var(--dgold);font-weight:600}
+section.act h2{font-size:clamp(23px,3.4vw,30px);margin:4px 0 16px}
+.gsd{display:grid;grid-template-columns:1fr;gap:0;border:2px solid var(--msky);border-radius:14px;overflow:hidden;margin-bottom:18px}
+.gsd>div{padding:12px 18px;display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:baseline}
+.gsd>div+div{border-top:1px solid var(--msky)}
+.gsd b.k{font-family:var(--head);font-size:13px;color:var(--dgold)}
+.gsd ol{margin:0;padding-left:20px}
+.gsd ol li{margin:2px 0}
+.gsd .done{background:var(--warm)}
+.talk{background:var(--sky);border-radius:14px;padding:16px 18px;margin:18px 0;border-left:6px solid var(--blue)}
+.talk h3{font-size:17px;margin-bottom:6px}
+.talk ul{margin:4px 0 10px;padding-left:20px}
+.card{border:2px solid var(--msky);border-radius:14px;padding:16px 18px;margin:12px 0;background:var(--paper)}
+.card h3{font-size:18px;margin-bottom:8px}
+.card.soft{background:var(--sky);border-color:var(--sky)}
+.card.warm{background:var(--warm);border-color:var(--warm)}
+.card.navy{background:var(--navy);border-color:var(--navy);color:#e8eef7}
+.card.navy h3{color:var(--gold)}
+.step{font-family:var(--head);font-weight:700;color:var(--navy);font-size:16px;margin:22px 0 8px;display:flex;gap:10px;align-items:center}
+.step .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:15px}
+label.f{display:block;font-weight:600;color:var(--ink);margin:12px 0 4px;font-size:15.5px}
+.hint{font-size:14px;color:#5a6b86;margin:2px 0 6px}
+textarea,input[type=text],input[type=url],select{width:100%;border:2px solid var(--dsky);border-radius:10px;padding:9px 12px;background:#fbfcfe}
+textarea{min-height:76px;resize:vertical}
+textarea.tall{min-height:140px}
+textarea:focus,input:focus,select:focus{border-color:var(--blue);outline:none;background:#fff}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.btn{border:0;border-radius:10px;padding:9px 16px;font-weight:600;cursor:pointer;background:var(--navy);color:#fff}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.ghost{background:var(--msky);color:var(--navy)}
+.btn.sm{padding:5px 11px;font-size:14px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.choices button{border:2px solid var(--dsky);background:#fff;border-radius:99px;padding:5px 13px;cursor:pointer;font-weight:600;font-size:14.5px;color:var(--navy)}
+.choices button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.fb{font-size:14.5px;margin-top:8px;padding:8px 12px;border-radius:8px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb.info{background:var(--warm);color:#5b4a1c}
+.quote{font-family:Georgia,serif;font-size:18px;color:var(--ink);background:var(--warm);border-left:6px solid var(--gold);padding:14px 18px;border-radius:8px;margin:10px 0}
+.ver{display:grid;grid-template-columns:34px 1fr;gap:12px;border:2px solid var(--msky);border-radius:12px;padding:12px 14px;margin:10px 0}
+.ver .vn{font-family:var(--head);font-weight:800;color:var(--gold);font-size:22px}
+.ver .vt{margin-bottom:8px}
+.ver.ok{border-color:#9fd1b6}.ver.bad{border-color:#e3aaa5}
+.match{display:grid;grid-template-columns:170px 1fr 28px;gap:10px;align-items:center;margin:6px 0}
+.match b{color:var(--ink)}
+.mark{font-weight:800}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cornell{display:grid;grid-template-columns:120px 1fr;border:2px solid var(--navy);border-radius:8px;overflow:hidden;font-size:15px}
+.cornell div{padding:8px 10px}
+.cornell .c{background:var(--msky);font-weight:600;color:var(--ink);border-right:2px solid var(--navy)}
+.cornell .s{grid-column:1/3;border-top:2px solid var(--navy);background:var(--warm)}
+.pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pcard{border:2px solid var(--msky);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.pcard h4{font-size:16px}
+.pcard code{font-family:var(--body);font-size:14.5px;background:var(--sky);padding:8px 10px;border-radius:8px;display:block;color:var(--ink)}
+.pcard.never{border-color:#e3aaa5;background:var(--badbg)}
+.pieces{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.piece{border:2px dashed var(--blue);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:15px;color:var(--ink)}
+.piece.used{opacity:.3;cursor:default}
+.built{min-height:52px;border:2px solid var(--dsky);border-radius:10px;padding:10px 12px;background:var(--sky);font-size:15.5px;color:var(--ink)}
+.ref{background:var(--sky);border-radius:10px;padding:10px 14px;font-size:15.5px;color:var(--ink);padding-left:2.2em;text-indent:-1.6em;word-break:break-word;margin-top:6px}
+.tabs{display:flex;gap:6px;margin:6px 0 0}
+.tabs button{border:0;background:var(--msky);color:var(--navy);font-weight:700;padding:8px 14px;border-radius:10px 10px 0 0;cursor:pointer;font-family:var(--head);font-size:14px}
+.tabs button.on{background:var(--warm)}
+.article{background:var(--warm);padding:18px 22px;border-radius:0 12px 12px 12px;font-family:Georgia,serif;font-size:16.5px;line-height:1.65;color:#2a2a2a}
+.article h3{font-family:Georgia,serif;font-size:21px;color:var(--navy);margin-bottom:4px}
+.article .src{font-family:var(--body);font-size:13.5px;color:var(--dgold);margin-bottom:12px}
+.article p{margin:0 0 .8em}
+.pnum{font-family:var(--head);font-size:12px;color:var(--dgold);font-weight:700;margin-right:4px}
+.flawed{border:2px solid var(--gold);border-radius:12px;padding:14px 18px;background:#fffaf0}
+.flawed .who{font-family:var(--head);font-size:13px;color:var(--dgold);font-weight:700;margin-bottom:4px}
+.err{display:grid;grid-template-columns:150px 1fr;gap:10px;margin:8px 0;align-items:start}
+.fmm{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0}
+.fmm div{background:var(--navy);color:#e8eef7;border-radius:10px;padding:10px 12px;font-size:14.5px}
+.fmm b{display:block;font-family:var(--head);color:var(--gold);font-size:16px}
+.q{border-bottom:1px solid var(--msky);padding:10px 0}
+.q:last-child{border:0}
+.q .qt{font-weight:600;color:var(--ink);margin-bottom:6px}
+.case{border:2px solid var(--msky);border-radius:12px;padding:14px 16px;margin:10px 0}
+.case .who{font-family:var(--head);font-weight:700;color:var(--navy)}
+.src3{border:2px solid var(--msky);border-radius:14px;padding:14px 16px;margin:12px 0}
+.src3 h4{font-size:16px;margin-bottom:6px}
+.checks{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0}
+.checks label{display:flex;gap:6px;align-items:center;font-size:15px;font-weight:600;color:var(--ink)}
+.checks input{width:18px;height:18px;accent-color:var(--navy)}
+.radio{display:flex;flex-direction:column;gap:6px}
+.radio label{display:flex;gap:8px;align-items:flex-start;font-size:15.5px;cursor:pointer}
+.radio input{margin-top:5px;accent-color:var(--navy)}
+.timer{display:inline-flex;align-items:center;gap:6px;margin-left:auto;background:var(--sky);border-radius:99px;padding:3px 4px 3px 12px}
+.timer b{font-family:var(--head);font-size:15px;color:var(--navy);min-width:48px;font-variant-numeric:tabular-nums}
+.timer button{border:0;background:var(--navy);color:#fff;border-radius:99px;padding:3px 10px;font-size:13px;cursor:pointer;font-weight:600}
+.timer.end b{color:var(--bad)}
+details{margin:8px 0}
+details summary{cursor:pointer;font-weight:600;color:var(--blue)}
+table.rub{width:100%;border-collapse:collapse;font-size:15px;margin:8px 0}
+table.rub td,table.rub th{border-bottom:1px solid var(--msky);padding:7px 8px;text-align:left}
+table.rub th{font-family:var(--head);font-size:13px;color:var(--dgold)}
+.count{font-size:14px;font-weight:600;color:var(--dgold)}
+footer{text-align:center;padding:30px 20px 50px;color:var(--text);font-size:14px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+.toast.show{opacity:1}
+@media (max-width:700px){
+  section.act{padding:20px 16px}
+  .gsd>div{grid-template-columns:1fr;gap:2px}
+  .two,.fmm{grid-template-columns:1fr}
+  .match{grid-template-columns:1fr 24px}
+  .match b{grid-column:1/3}
+  .err{grid-template-columns:1fr}
+  .bar{width:70px}
+  .top img{height:26px}
+  html{scroll-padding-top:12px}
+  .top{position:static}
+  .topin{gap:10px}
+  .tbtn{padding:6px 10px;font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{.top,nav.acts,.btns,.timer,.tbtn{display:none!important}section.act{break-inside:avoid-page}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="topin">
+    <img src="data:image/png;base64,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" alt="Approach International Student Center">
+    <div class="namebox"><label for="sname">Name</label><input id="sname" type="text" data-k="name" data-label="Name" placeholder="Type your full name"></div>
+    <div class="prog"><span id="progtxt">0 of 9 done</span><div class="bar"><i id="progbar"></i></div></div>
+    <button class="tbtn" id="exportBtn" type="button">Export my work (PDF)</button>
+    <button class="tbtn alt" id="copyBtn" type="button">Copy my answers</button>
+  </div>
+  <nav class="acts" aria-label="Activities">
+    <a href="#a1" data-nav="1">1 Paraphrase or Plagiarism?</a>
+    <a href="#a2" data-nav="2">2 Word Builder</a>
+    <a href="#a3" data-nav="3">3 Notes That Work</a>
+    <a href="#a4" data-nav="4">4 Cite It Right</a>
+    <a href="#a5" data-nav="5">5 Summary Detectives</a>
+    <a href="#a6" data-nav="6">6 Choose Your Question</a>
+    <a href="#a7" data-nav="7">7 Research Clinic</a>
+    <a href="#a8" data-nav="8">8 Integrity Court</a>
+    <a href="#a9" data-nav="9">9 Midterm Ready + Exit Ticket</a>
+    <a href="#hw">Homework A4</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="wk">AI Sprint · Week 5 · Fall 2026</div>
+    <h1>Reading, Research &amp; Citation</h1>
+    <p class="sub">Read with AI, check what it tells you, give honest credit, and start your research brief.</p>
+    <ul class="objs">
+      <li>Tell paraphrase from plagiarism and explain why.</li>
+      <li>Summarize an article with AI, then find the errors.</li>
+      <li>Cite an article, a website and an AI tool in APA 7.</li>
+      <li>Write a research question, find 3 checked sources and an outline.</li>
+      <li>Know how the Week 6 midterm works and how it is graded.</li>
+    </ul>
+    <div class="vocabbar" id="vocabbar"><span class="l">Week 5 words you have used:</span></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- ============ ACTIVITY 1 ============ -->
+<section class="act" id="a1">
+  <div class="ahead"><span class="tag e">Engage</span><span class="mins">15 min</span><span class="group">Everyone, then groups of 3</span><span class="timer" data-min="15"></span></div>
+  <h2>Activity 1 — Paraphrase or Plagiarism?</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Decide if 6 versions of one sentence are OK or plagiarism.</span></div>
+    <div><b class="k">Steps</b><ol><li>Read the original sentence.</li><li>Vote for each version. Don't worry about being wrong.</li><li>Your teacher shows the answers. Then talk in your group.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>6 votes + your group's answer in the Talk box.</span></div>
+  </div>
+  <p class="hint">The original, from the practice article “Pen or Keyboard?” by Ortiz (2026), page 13:</p>
+  <div class="quote">“Because handwriting is slower, students cannot write down everything, so they must decide what is important and put it in their own words.”</div>
+  <div id="versions"></div>
+  <div class="btns"><button class="btn gold" type="button" id="a1reveal">Show the answers</button></div>
+  <div class="fb info" id="a1fb"></div>
+  <div class="talk">
+    <h3>Talk about it (groups of 3)</h3>
+    <ul>
+      <li>Which version surprised your group? Why?</li>
+      <li>Is it plagiarism if <b>AI</b> wrote it? Does it depend on the rules?</li>
+    </ul>
+    <label class="f" for="a1_talk">Our group thinks…</label>
+    <textarea id="a1_talk" data-k="a1_talk" data-label="Activity 1 Talk: our group thinks"></textarea>
+  </div>
+</section>
+
+<!-- ============ ACTIVITY 2 ============ -->
+<section class="act" id="a2">
+  <div class="ahead"><span class="tag s">Study</span><span class="mins">10 min</span><span class="group">Alone, then pairs</span><span class="timer" data-min="10"></span></div>
+  <h2>Activity 2 — Word Builder</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Learn the 10 words we use all day.</span></div>
+    <div><b class="k">Steps</b><ol><li>Match each word to its meaning. Press <b>Check</b>.</li><li>Ask your partner the 3 questions below.</li><li>Write one answer using a Week 5 word.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>10 correct matches + your sentence.</span></div>
+  </div>
+  <div id="matchlist"></div>
+  <div class="btns"><button class="btn" type="button" id="a2check">Check</button></div>
+  <div class="fb" id="a2fb"></div>
+  <div class="talk">
+    <h3>Talk about it (pairs)</h3>
+    <ul>
+      <li>When did you last <b>skim</b> something? What was it?</li>
+      <li>How do you decide if a website is <b>credible</b>?</li>
+      <li>Why is <b>academic integrity</b> important at university or at work?</li>
+    </ul>
+    <label class="f" for="a2_sent">My answer to one question (use a Week 5 word)</label>
+    <textarea id="a2_sent" data-k="a2_sent" data-label="Activity 2 My sentence"></textarea>
+  </div>
+</section>
+
+<!-- ============ ACTIVITY 3 ============ -->
+<section class="act" id="a3">
+  <div class="ahead"><span class="tag s">Study</span><span class="mins">15 min</span><span class="group">Groups of 3</span><span class="timer" data-min="15"></span></div>
+  <h2>Activity 3 — Notes That Work</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Find out which notes help you learn, and which AI prompts help you read.</span></div>
+    <div><b class="k">Steps</b><ol><li>Compare Notes 1 and Notes 2 with your group.</li><li>Answer the 2 questions.</li><li>Choose one AI reading prompt for Activity 5.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>2 answers + 1 prompt chosen with a reason.</span></div>
+  </div>
+  <p class="hint">Both notes are about paragraph 3 of “Pen or Keyboard?”.</p>
+  <div class="two">
+    <div class="card soft"><h3>Notes 1</h3>
+      <p style="font-size:15px">On questions about facts, such as dates and names, the two groups scored about the same. On questions about concepts — explaining why or how — the handwriting group scored 15% higher. Because handwriting is slower, students cannot write down everything…</p>
+    </div>
+    <div class="card soft"><h3>Notes 2 (Cornell notes)</h3>
+      <div class="cornell">
+        <div class="c">Facts vs. concepts?</div><div>facts (dates, names): same score<br>concepts (why / how): hand +15%</div>
+        <div class="c">Why does hand help?</div><div>slow → can't write all → choose + own words</div>
+        <div class="s"><b>Summary:</b> Handwriting helps understanding because you must choose and rephrase.</div>
+      </div>
+    </div>
+  </div>
+  <div class="talk">
+    <h3>Talk about it (groups of 3)</h3>
+    <div class="q"><div class="qt">1. Which notes help more for a test one week later?</div>
+      <div class="choices" data-k="a3_q1" data-label="Activity 3 Q1 Better notes"><button type="button" data-val="Notes 1">Notes 1</button><button type="button" data-val="Notes 2">Notes 2</button></div>
+      <label class="f" for="a3_why">Why?</label><textarea id="a3_why" data-k="a3_why" data-label="Activity 3 Q1 Why"></textarea></div>
+    <div class="q"><div class="qt">2. When could copied notes like Notes 1 be useful?</div>
+      <textarea data-k="a3_q2" data-label="Activity 3 Q2 When copied notes help" aria-label="When could copied notes be useful?"></textarea></div>
+  </div>
+  <h3 style="font-size:19px;margin:20px 0 8px">AI reading prompts: let AI help you read, not read for you</h3>
+  <div class="pcards">
+    <div class="pcard"><h4>Explain</h4><code>Explain paragraph 3 of this article in simple English for a B2 learner. Use one example.</code><button type="button" class="btn sm ghost" data-copy="Explain paragraph 3 of this article in simple English for a B2 learner. Use one example.">Copy</button></div>
+    <div class="pcard"><h4>Quiz me</h4><code>Ask me 3 questions about this article, one at a time. Wait for my answer and tell me if I am right.</code><button type="button" class="btn sm ghost" data-copy="Ask me 3 questions about this article, one at a time. Wait for my answer and tell me if I am right.">Copy</button></div>
+    <div class="pcard"><h4>Make notes</h4><code>Turn this article into Cornell notes: questions on the left, short notes on the right, a 2-sentence summary at the bottom.</code><button type="button" class="btn sm ghost" data-copy="Turn this article into Cornell notes: questions on the left, short notes on the right, a 2-sentence summary at the bottom.">Copy</button></div>
+    <div class="pcard never"><h4>Never</h4><code>Write my essay about this article.</code><p class="hint" style="margin:0">The work would not be yours. That breaks academic integrity.</p></div>
+  </div>
+  <label class="f">The prompt I will try in Activity 5</label>
+  <div class="choices" data-k="a3_pick" data-label="Activity 3 Prompt I chose"><button type="button" data-val="Explain">Explain</button><button type="button" data-val="Quiz me">Quiz me</button><button type="button" data-val="Make notes">Make notes</button></div>
+  <label class="f" for="a3_pickwhy">Because…</label>
+  <input type="text" id="a3_pickwhy" data-k="a3_pickwhy" data-label="Activity 3 Why this prompt">
+</section>
+
+<!-- ============ ACTIVITY 4 ============ -->
+<section class="act" id="a4">
+  <div class="ahead"><span class="tag s">Study</span><span class="mins">15 min</span><span class="group">Alone, check with a partner</span><span class="timer" data-min="15"></span></div>
+  <h2>Activity 4 — Cite It Right</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Cite an article, a website and your AI tool in APA 7.</span></div>
+    <div><b class="k">Steps</b><ol><li>Build the reference: click the pieces in the right order.</li><li>Fix the broken website reference.</li><li>Write the citation for the AI tool you use.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>Puzzle correct + fixed reference + your AI citation.</span></div>
+  </div>
+  <div class="two">
+    <div class="card navy"><h3>In your text (in-text citation)</h3>
+      <p><b>(Ortiz, 2026)</b> at the end of the sentence<br><b>Ortiz (2026) explains that…</b> at the start<br>Exact words? Add quotation marks and the page: <b>(Ortiz, 2026, p. 13)</b></p></div>
+    <div class="card navy"><h3>At the end (reference list)</h3>
+      <p>Every source you cite, A to Z by author. The same source, full details, so a reader can find it.</p></div>
+  </div>
+  <div class="step"><span class="n">1</span>Build the reference for the article</div>
+  <p class="hint">Click the pieces in order. Pattern: Author. (Year). Title. <i>Journal, volume</i>(issue), pages. DOI</p>
+  <div class="pieces" id="pieces"></div>
+  <div class="built" id="built" aria-live="polite"></div>
+  <div class="btns"><button class="btn" type="button" id="a4check">Check</button><button class="btn ghost" type="button" id="a4reset">Start again</button></div>
+  <div class="fb" id="a4fb"></div>
+
+  <div class="step"><span class="n">2</span>Fix the website reference</div>
+  <div class="flawed"><div class="who">Broken</div>Marcus Lee. The Power of Short Breaks at Work. (2025). workplacetoday.example</div>
+  <p class="hint">Find at least 3 mistakes. Facts you need: published 3 March 2025 on the website <i>Workplace Today</i>, URL https://www.workplacetoday.example/short-breaks</p>
+  <textarea data-k="a4_fix" data-label="Activity 4 Fixed reference" aria-label="Your fixed reference" placeholder="Lee, M. ..."></textarea>
+  <details><summary>Show the correct version</summary><div class="ref">Lee, M. (2025, March 3). <i>The power of short breaks at work</i>. Workplace Today. https://www.workplacetoday.example/short-breaks</div><p class="hint">Last name + initial · date after the author · title in sentence case · site name + full URL.</p></details>
+
+  <div class="step"><span class="n">3</span>Cite the AI tool you use</div>
+  <div class="row">
+    <div><label class="f" for="ai_co">Company</label><input type="text" id="ai_co" data-k="ai_co" data-label="AI citation company" placeholder="Anthropic"></div>
+    <div><label class="f" for="ai_yr">Year of the version you used</label><input type="text" id="ai_yr" data-k="ai_yr" data-label="AI citation year" placeholder="2026"></div>
+    <div><label class="f" for="ai_tool">Tool name</label><input type="text" id="ai_tool" data-k="ai_tool" data-label="AI citation tool" placeholder="Claude"></div>
+    <div><label class="f" for="ai_url">Website</label><input type="text" id="ai_url" data-k="ai_url" data-label="AI citation URL" placeholder="https://claude.ai"></div>
+  </div>
+  <p class="hint" style="margin-top:10px">Your reference:</p>
+  <div class="ref" id="aiRef"></div>
+  <p class="hint">In your text: <b id="aiIn"></b></p>
+</section>
+
+<!-- ============ ACTIVITY 5 ============ -->
+<section class="act" id="a5">
+  <div class="ahead"><span class="tag a">Activate</span><span class="mins">40 min</span><span class="group">Groups of 3, then A + B pairs</span><span class="timer" data-min="40"></span></div>
+  <h2>Activity 5 — Summary Detectives</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Find the mistakes in an AI summary, make a better one, and teach your article to a partner.</span></div>
+    <div><b class="k">Steps</b><ol><li><b>Skim + spot</b> (15 min): skim your article and write the main idea. Find 3 errors in the AI summary.</li><li><b>Your turn</b> (15 min): write your own prompt, get an AI summary, check it.</li><li><b>Teach</b> (10 min): explain your article to someone from the other group.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>Main idea, 3 errors, your checked summary and your partner's article notes.</span></div>
+  </div>
+  <label class="f">Our group has</label>
+  <div class="choices" data-k="a5_art" data-label="Activity 5 Our article"><button type="button" data-val="A">Article A — Pen or Keyboard?</button><button type="button" data-val="B">Article B — Short Breaks at Work</button></div>
+  <p class="hint" style="margin-top:8px">Both are practice articles written for this class. The people, studies and links are invented.</p>
+  <div class="tabs" role="tablist"><button type="button" data-tab="A" class="on">Article A</button><button type="button" data-tab="B">Article B</button></div>
+  <div class="article" id="artA">
+    <h3>Pen or Keyboard? What Happens When Students Take Notes</h3>
+    <div class="src">Hana Ortiz · Approach Learning Review, 4(2), 12–14 · 2026</div>
+    <p><span class="pnum">1</span>Most university students now take notes on a laptop. Typing is fast, so students can record almost every word a lecturer says. But is more always better?</p>
+    <p><span class="pnum">2</span>In a study at one university, researchers divided 120 first-year students into two groups. One group took notes by hand; the other typed. After a 20-minute lecture, the typists had written almost twice as many words. However, many of their notes copied the lecture word for word.</p>
+    <p><span class="pnum">3</span>One week later, both groups took a test. On questions about facts, such as dates and names, the two groups scored about the same. On questions about concepts — explaining why or how — the handwriting group scored 15% higher. Because handwriting is slower, students cannot write down everything, so they must decide what is important and put it in their own words.</p>
+    <p><span class="pnum">4</span>Typing still has advantages. Typed notes are easy to search, share and organize, and they are useful in long lectures with many details.</p>
+    <p><span class="pnum">5</span>The author's advice is simple: the tool matters less than the method. Whether you use a pen or a keyboard, write the main ideas in your own words and review your notes within 24 hours. The study was small and took place at only one university, so more research is needed.</p>
+  </div>
+  <div class="article" id="artB" hidden>
+    <h3>The Power of Short Breaks at Work</h3>
+    <div class="src">Marcus Lee · Workplace Today · 3 March 2025</div>
+    <p><span class="pnum">1</span>Many office workers skip breaks because they feel too busy. They believe that working without stopping means getting more done. New survey data suggest the opposite.</p>
+    <p><span class="pnum">2</span>Workplace Today surveyed 800 office workers in five countries. Workers who took a five-minute break every hour reported 20% less tiredness at the end of the day than workers who took no breaks. They also completed 8% more tasks per week, according to their own records.</p>
+    <p><span class="pnum">3</span>The type of break matters. Breaks spent walking, stretching or talking to a colleague helped the most. Breaks spent looking at a phone helped much less, because the brain does not really rest.</p>
+    <p><span class="pnum">4</span>Some managers worry that breaks waste time. However, the data suggest that a few short breaks cost less time than the mistakes tired workers make.</p>
+    <p><span class="pnum">5</span>There are limits. The workers reported their own tiredness and tasks, so the results may not be fully accurate. Still, the advice is easy to try: plan short, screen-free breaks, and protect them like meetings.</p>
+  </div>
+
+  <div class="step"><span class="n">1</span>Skim + spot</div>
+  <p class="hint">Skim first: title, first lines, last paragraph. Then write the main idea in one sentence.</p>
+  <label class="f" for="a5_main">The main idea of our article</label>
+  <textarea id="a5_main" data-k="a5_main" data-label="Activity 5 Main idea"></textarea>
+  <div class="fmm">
+    <div><b>Fact</b>Are the numbers, names and facts the same as the article?</div>
+    <div><b>Meaning</b>Does it say what the article really says? Not more, not less.</div>
+    <div><b>Missing</b>Is something important left out?</div>
+  </div>
+  <div class="flawed" id="flawed"><div class="who">AI summary</div><span id="flawedText">Choose your article above.</span></div>
+  <p class="hint" style="margin-top:8px">There are 3 errors: one Fact, one Meaning, one Missing.</p>
+  <div class="err"><b>Fact error</b><textarea data-k="a5_e1" data-label="Activity 5 Fact error" aria-label="Fact error" placeholder="The summary says… but the article says…"></textarea></div>
+  <div class="err"><b>Meaning error</b><textarea data-k="a5_e2" data-label="Activity 5 Meaning error" aria-label="Meaning error" placeholder="The summary says… but the article says…"></textarea></div>
+  <div class="err"><b>Missing</b><textarea data-k="a5_e3" data-label="Activity 5 Missing" aria-label="Missing information" placeholder="The summary does not mention…"></textarea></div>
+  <div class="btns"><button class="btn gold" type="button" id="a5hint">Check our answers</button></div>
+  <div class="fb info" id="a5fb"></div>
+
+  <div class="step"><span class="n">2</span>Your turn: a better summary</div>
+  <p class="hint">Write your own prompt. Say who it is for, how long, and to use only the article. Then paste the article and your prompt into your AI tool.</p>
+  <label class="f" for="a5_prompt">My prompt</label>
+  <textarea id="a5_prompt" data-k="a5_prompt" data-label="Activity 5 My prompt"></textarea>
+  <div class="btns"><button class="btn sm ghost" type="button" id="copyPrompt5">Copy my prompt + the article</button></div>
+  <label class="f" for="a5_ai">The AI's summary (paste)</label>
+  <textarea id="a5_ai" data-k="a5_ai" data-label="Activity 5 AI summary" class="tall"></textarea>
+  <div class="checks">
+    <label><input type="checkbox" data-k="a5_cf" data-label="Activity 5 Check Fact">Fact ✓</label>
+    <label><input type="checkbox" data-k="a5_cm" data-label="Activity 5 Check Meaning">Meaning ✓</label>
+    <label><input type="checkbox" data-k="a5_cx" data-label="Activity 5 Check Missing">Missing ✓</label>
+  </div>
+  <label class="f" for="a5_fix">What I found or fixed</label>
+  <textarea id="a5_fix" data-k="a5_fix" data-label="Activity 5 What I found or fixed" placeholder="Nothing wrong / The AI said… so I changed it to…"></textarea>
+
+  <div class="step"><span class="n">3</span>Teach (A + B pairs)</div>
+  <p class="hint">Explain your article in 2 minutes without reading. Then listen to your partner and take notes.</p>
+  <div class="talk">
+    <h3>Talk about it</h3>
+    <ul><li>Was your AI summary better than the one in Step 1? Why?</li><li>Would you trust an AI summary of a 20-page article without reading it?</li></ul>
+    <div class="row">
+      <div><label class="f" for="a5_pmain">Partner's article: main idea</label><textarea id="a5_pmain" data-k="a5_pmain" data-label="Activity 5 Partner main idea"></textarea></div>
+      <div><label class="f" for="a5_pnum">One number + one limitation</label><textarea id="a5_pnum" data-k="a5_pnum" data-label="Activity 5 Partner number and limitation"></textarea></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACTIVITY 6 ============ -->
+<section class="act" id="a6">
+  <div class="ahead"><span class="tag e">Engage → Study</span><span class="mins">15 min</span><span class="group">Groups of 3</span><span class="timer" data-min="15"></span></div>
+  <h2>Activity 6 — Choose Your Question</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Write a research question for your A4 brief that is not too big and not too small.</span></div>
+    <div><b class="k">Steps</b><ol><li>As a group, sort the 6 questions. Agree before you click.</li><li>Choose a topic and write your own question.</li><li>A partner rates it. Improve it if needed.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>6 sorted + your question rated by a partner.</span></div>
+  </div>
+  <div class="card warm"><b>The test:</b> Can I answer it with 3 sources in 400–500 words?</div>
+  <div id="qsort"></div>
+  <div class="btns"><button class="btn" type="button" id="a6check">Check</button></div>
+  <div class="fb" id="a6fb"></div>
+  <div class="talk">
+    <h3>Talk about it</h3>
+    <ul><li>Which question did your group disagree about? How did you decide?</li><li>How could you make “Is social media good or bad?” just right?</li></ul>
+  </div>
+  <label class="f" for="a6_topic">My topic</label>
+  <select id="a6_topic" data-k="a6_topic" data-label="Activity 6 Topic">
+    <option value="">Choose…</option>
+    <option>Sleep and student performance</option>
+    <option>Remote and hybrid work</option>
+    <option>AI in job hiring</option>
+    <option>Social media marketing for small businesses</option>
+    <option>Online vs. in-person learning</option>
+    <option>Plastic packaging and shoppers</option>
+    <option>My own topic</option>
+  </select>
+  <label class="f" for="a6_q">My research question</label>
+  <textarea id="a6_q" data-k="a6_q" data-label="Activity 6 My research question" placeholder="How does … affect … ?"></textarea>
+  <label class="f">My partner says: can I answer it with 3 sources in 400–500 words?</label>
+  <div class="choices" data-k="a6_rate" data-label="Activity 6 Partner rating"><button type="button" data-val="Yes">Yes</button><button type="button" data-val="Almost">Almost</button><button type="button" data-val="No">No</button></div>
+  <label class="f" for="a6_better">Improved question (if needed)</label>
+  <textarea id="a6_better" data-k="a6_better" data-label="Activity 6 Improved question"></textarea>
+</section>
+
+<!-- ============ ACTIVITY 7 ============ -->
+<section class="act" id="a7">
+  <div class="ahead"><span class="tag a">Activate · AI Sprint</span><span class="mins">50 min</span><span class="group">Alone, sit with your group</span><span class="timer" data-min="50"></span></div>
+  <h2>Activity 7 — Research Clinic</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Leave class with 3 checked sources and an outline for A4.</span></div>
+    <div><b class="k">Steps</b><ol><li><b>Stop 1</b> (10 min): ask AI for search words, not sources.</li><li><b>Stops 2 and 3</b> (30 min, any order): find + check 3 sources · build your outline.</li><li><b>Consult</b> (10 min): share with your group and get one suggestion each.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>3 sources with all checks ticked + an outline + group suggestions.</span></div>
+  </div>
+  <div class="card warm"><b>Warning:</b> AI can invent sources that look real: real-sounding authors, journals and page numbers. Never copy a source from AI. Find it yourself and open it.</div>
+  <p class="hint">Your question: <b id="myQ">(write it in Activity 6)</b></p>
+
+  <div class="step"><span class="n">1</span>Stop 1 · Search smart</div>
+  <label class="f" for="a7_prompt">My prompt for search words</label>
+  <textarea id="a7_prompt" data-k="a7_prompt" data-label="Activity 7 Search prompt"></textarea>
+  <details><summary>Stuck? See a model prompt</summary><p class="ref" style="text-indent:0;padding-left:14px">I am a B2 English student writing a 450-word research brief. My question is: [your question]. Suggest 5 search keywords and 3 subtopics. Do not give me sources or links.</p></details>
+  <label class="f" for="a7_words">Search words I will use</label>
+  <input type="text" id="a7_words" data-k="a7_words" data-label="Activity 7 Search words">
+
+  <div class="step"><span class="n">2</span>Stop 2 · Find + check 3 sources</div>
+  <p class="hint">Good places: university and government websites, library databases, news organizations, company reports. Write authors as <b>Last name, Initial.</b> (e.g. Lee, M.). No author? Use the organization name.</p>
+  <div id="sources"></div>
+
+  <div class="step"><span class="n">3</span>Stop 3 · Outline</div>
+  <label class="f" for="o_intro">Introduction: why does your question matter?</label>
+  <textarea id="o_intro" data-k="o_intro" data-label="Outline Introduction"></textarea>
+  <div id="points"></div>
+  <label class="f" for="o_conc">Conclusion: your answer + one limitation</label>
+  <textarea id="o_conc" data-k="o_conc" data-label="Outline Conclusion"></textarea>
+  <div class="card soft" style="margin-top:14px">
+    <b>Ask AI for feedback, not for writing.</b>
+    <p class="hint">“Here is my outline for a 450-word research brief. Give me 3 suggestions to make it clearer. Do not rewrite it.”</p>
+    <button class="btn sm ghost" type="button" id="copyOutline">Copy this prompt + my outline</button>
+    <label class="f" for="o_ai">One AI suggestion I will use</label>
+    <input type="text" id="o_ai" data-k="o_ai" data-label="Outline AI suggestion I will use">
+  </div>
+
+  <div class="talk">
+    <h3>Consult (groups of 3 · 10 min)</h3>
+    <ul><li>Share your question and your best source. Why is it credible?</li><li>Each person gives one suggestion. Ask: “Is it too big?” “Can you confirm this source?”</li></ul>
+    <label class="f" for="a7_consult">Suggestions from my group</label>
+    <textarea id="a7_consult" data-k="a7_consult" data-label="Activity 7 Group suggestions"></textarea>
+  </div>
+  <div class="btns"><button class="btn gold" type="button" id="a4start">Copy my A4 Starter</button></div>
+  <p class="hint">Copies your question, references and outline. Paste it into your document for homework.</p>
+</section>
+
+<!-- ============ ACTIVITY 8 ============ -->
+<section class="act" id="a8">
+  <div class="ahead"><span class="tag a">Activate</span><span class="mins">15 min</span><span class="group">Groups of 3</span><span class="timer" data-min="15"></span></div>
+  <h2>Activity 8 — Integrity Court</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Your group is the judge. Decide if each student used AI and sources honestly.</span></div>
+    <div><b class="k">Steps</b><ol><li>Read each case and discuss. Agree on a verdict.</li><li>Write a short reason.</li><li>Present one case to the class. Others: agree or disagree?</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>5 verdicts with reasons + one case presented.</span></div>
+  </div>
+  <div id="cases"></div>
+  <label class="f" for="a8_pres">We present case number…</label>
+  <select id="a8_pres" data-k="a8_pres" data-label="Activity 8 Case we present"><option value="">Choose…</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+  <div class="talk"><h3>Talk about it</h3><ul><li>Which case was the hardest to judge? Why?</li><li>What is one rule you will follow in your A4 brief?</li></ul>
+    <label class="f" for="a8_rule">My rule</label><input type="text" id="a8_rule" data-k="a8_rule" data-label="Activity 8 My rule"></div>
+  <details><summary>Teacher's view (open after presenting)</summary><div id="a8key"></div></details>
+</section>
+
+<!-- ============ ACTIVITY 9 ============ -->
+<section class="act" id="a9">
+  <div class="ahead"><span class="tag s">Study</span><span class="mins">20 min</span><span class="group">Alone</span><span class="timer" data-min="20"></span></div>
+  <h2>Activity 9 — Midterm Ready + Exit Ticket</h2>
+  <div class="gsd">
+    <div><b class="k">Goal</b><span>Know how the midterm works and show what you learned today.</span></div>
+    <div><b class="k">Steps</b><ol><li>Read the midterm card.</li><li>Match each piece of evidence to a rubric part.</li><li>Do the exit ticket, then press <b>Export my work</b>.</li></ol></div>
+    <div class="done"><b class="k">Done when</b><span>5 matches + exit ticket + file exported.</span></div>
+  </div>
+  <div class="card navy">
+    <h3>Midterm Project · Week 6 · 30%</h3>
+    <p>In class, alone. You get a new business or academic case and use AI to make a one-page solution brief.</p>
+    <p><b>You hand in:</b> a prompt log (5+ prompts) · the one-page brief · a verification note (claims checked + sources) · a 2–3 minute oral check-in about your process and AI use.</p>
+  </div>
+  <div id="rubric"></div>
+  <div class="btns"><button class="btn" type="button" id="a9check">Check</button></div>
+  <div class="fb" id="a9fb"></div>
+
+  <h3 style="font-size:20px;margin:26px 0 6px">Exit ticket</h3>
+  <div id="exit"></div>
+  <div class="q"><div class="qt">4. Write one sentence about today with <b>three</b> Week 5 words.</div>
+    <textarea data-k="x_sent" data-label="Exit ticket sentence" aria-label="Your sentence"></textarea><div class="count" id="xcount">Week 5 words: 0 of 3</div></div>
+  <div class="q"><div class="qt">5. How ready do you feel for the midterm?</div>
+    <div class="choices" data-k="x_conf" data-label="Exit ticket confidence (1-5)"><button type="button" data-val="1">1</button><button type="button" data-val="2">2</button><button type="button" data-val="3">3</button><button type="button" data-val="4">4</button><button type="button" data-val="5">5</button></div></div>
+  <div class="q"><div class="qt">6. One question about the midterm or A4</div>
+    <input type="text" data-k="x_q" data-label="Exit ticket question" aria-label="Your question"></div>
+  <div class="btns"><button class="btn gold" type="button" id="exportBtn2">Export my work (PDF)</button></div>
+</section>
+
+<!-- ============ HOMEWORK ============ -->
+<section class="act" id="hw">
+  <div class="ahead"><span class="tag a">Homework</span><span class="mins">Due start of Week 7</span></div>
+  <h2>A4 Research Brief with Sources · 5%</h2>
+  <p>Write a 400–500-word brief that answers your question with at least <b>3 real, checked sources</b>. Start from your A4 Starter (Activity 7).</p>
+  <table class="rub">
+    <tr><th>Part</th><th>What to include</th></tr>
+    <tr><td>Introduction</td><td>Your question and why it matters (2–3 sentences)</td></tr>
+    <tr><td>Body (2–3 paragraphs)</td><td>One main point each, from a source, paraphrased and cited</td></tr>
+    <tr><td>Conclusion</td><td>Your answer and one limitation</td></tr>
+    <tr><td>Reference list</td><td>All sources in APA 7, and your AI tool if you used it</td></tr>
+    <tr><td>AI-use statement</td><td>Which tool, what for, what you changed and checked</td></tr>
+  </table>
+  <div class="card warm"><b>Rules:</b> real sources only, not the class practice articles. AI can help you search, read, plan and check grammar. It does not write your paragraphs. No personal or confidential data.</div>
+  <table class="rub">
+    <tr><th>Graded on</th><th>Points</th></tr>
+    <tr><td>Focused research question</td><td>3</td></tr>
+    <tr><td>3+ credible, checked sources</td><td>5</td></tr>
+    <tr><td>Accurate paraphrase and in-text citations</td><td>5</td></tr>
+    <tr><td>APA 7 reference list</td><td>3</td></tr>
+    <tr><td>Organization and language</td><td>2</td></tr>
+    <tr><td>AI-use statement</td><td>2</td></tr>
+    <tr><td><b>Total</b></td><td><b>20</b></td></tr>
+  </table>
+  <p><b>Also:</b> review your notes and prompt journals from Weeks 1–5 for the midterm.</p>
+</section>
+</main>
+<footer>AI Sprint · Approach International Student Center · Your work saves automatically in this browser. Use the same device and browser, and export a copy at the end of class.</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script>
+(function(){
+"use strict";
+var KEY="aisprint_w5_v1";
+var S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){S={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} refresh();}
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove("show");},1800);}
+function copyText(txt){
+  function fallback(){var ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).catch(fallback);}else{fallback();}
+  toast("Copied");
+}
+
+/* ---------- DATA ---------- */
+var VERS=[
+ {t:"Because handwriting is slower, students cannot write down everything, so they must decide what is important and put it in their own words.",a:"pl",why:"Exact words, no quotation marks, no citation."},
+ {t:"Ortiz (2026) writes that “because handwriting is slower, students cannot write down everything” (p. 13).",a:"ok",why:"A direct quotation: quotation marks + author, year and page."},
+ {t:"As handwriting is slower, learners can't note everything, so they have to choose what matters and use their own words.",a:"pl",why:"Only a few words changed, same structure, and no citation."},
+ {t:"Ortiz (2026) explains that writing by hand forces students to select key information and rephrase it, since they cannot keep up with every word.",a:"ok",why:"New words, new structure, and the source is cited. A real paraphrase."},
+ {t:"Writing by hand forces students to select key information and rephrase it, since they cannot keep up with every word.",a:"pl",why:"A good paraphrase, but the idea belongs to Ortiz and there is no citation."},
+ {t:"A student asked AI to rewrite the sentence and used it without telling anyone: “Since writing by hand takes longer, students have to pick out the key points and express them in their own way (Ortiz, 2026).”",a:"ds",why:"The source is cited, but the words are the AI's and AI use is hidden. In our course: always disclose AI use. Credit the source. Disclose the AI."}
+];
+var VLAB={ok:"OK",pl:"Plagiarism",ns:"Not sure",ds:"Discuss: not OK in our course"};
+var WORDS=[
+ ["paraphrase","say an idea again in your own words"],
+ ["plagiarism","using someone's words or ideas without giving credit"],
+ ["summary","a short version with only the main points"],
+ ["main idea","the most important point of a text"],
+ ["skim","read quickly to get the general idea"],
+ ["cite","name the source of words or ideas you use"],
+ ["reference list","the list of all sources at the end of your work"],
+ ["credible","can be trusted; from a reliable author or organization"],
+ ["outline","a plan of the main parts of a text before you write"],
+ ["academic integrity","being honest in your studies"]
+];
+var DEFORDER=[4,7,0,9,2,5,1,8,3,6];
+var VOCAB=[
+ ["paraphrase",/\bparaphras/i],["plagiarism",/\bplagiar/i],["summary",/\bsummar(y|ies|ize|ise|ized|ised|izing|ising)\b/i],
+ ["main idea",/\bmain ideas?\b/i],["skim",/\bskim(s|med|ming)?\b/i],["cite",/\b(cite[sd]?|citing|citations?)\b/i],
+ ["reference list",/\breference lists?\b/i],["credible",/\bcredib(le|ility)\b/i],["outline",/\boutlin(e|es|ed|ing)\b/i],
+ ["academic integrity",/\bacademic integrity\b/i]
+];
+var PIECES=["Ortiz, H.","(2026).","Pen or keyboard? What happens when students take notes.","<i>Approach Learning Review, 4</i>(2), 12–14.","https://doi.org/10.0000/alr.2026.012"];
+var PSHOW=[2,4,0,3,1];
+var FLAWED={
+ A:"A study of 210 university students compared handwritten and typed notes. One week later, students who wrote by hand scored 15% higher on every type of test question. Typed notes are faster to write and easy to search.",
+ B:"A survey of 800 office workers found that taking a five-minute break every hour reduced tiredness by 20% and increased completed tasks by 18%. Any kind of break helps, including time on your phone. Managers should allow short breaks because they cost less time than tired workers' mistakes."
+};
+var FLAWKEY={
+ A:"<b>Fact:</b> 210 students → the article says <b>120</b>. <b>Meaning:</b> “every type of question” → only <b>concept</b> questions; fact scores were about the same. <b>Missing:</b> the author's advice (the method matters more than the tool: own words, review within 24 hours) and the limitation (small study, one university).",
+ B:"<b>Fact:</b> 18% more tasks → the article says <b>8%</b>. <b>Meaning:</b> “including time on your phone” → phone breaks helped <b>much less</b>. <b>Missing:</b> the limitation: workers reported their own results, so they may not be fully accurate."
+};
+var ART={};
+var QS=[
+ ["What is AI?","big"],
+ ["How do short breaks affect office workers' tiredness?","right"],
+ ["How many minutes was my manager's break on Tuesday?","small"],
+ ["Is social media good or bad?","big"],
+ ["How do small cafés use Instagram to attract young customers?","right"],
+ ["What year was the first smartphone sold?","small"]
+];
+var QLAB={big:"Too big",small:"Too small",right:"Just right"};
+var CASES=[
+ ["Amir","used AI to explain a hard article in simple English. He wrote his summary himself, cited the article, and mentioned AI in his AI-use statement.","fine","Fine as it is: AI helped him read; the writing and the credit are honest."],
+ ["Sofia","asked AI to paraphrase three paragraphs from a website. She cited the website but did not mention AI.","fix","Needs a fix: she must disclose AI use. Better: paraphrase it herself and check the meaning."],
+ ["Kenji","asked AI for 3 sources and copied them into his reference list without checking. One of them does not exist.","not","Not OK: an invented source is false information. Every source must be found and checked."],
+ ["Lina","wrote her brief in her first language and used AI to translate it into English. She disclosed this.","fix","Needs a fix / ask first: in an English course your English is being graded. Check the assignment rules with your teacher. (Good groups disagree here.)"],
+ ["Omar","copied one sentence from an article, put it in quotation marks, and added (Lee, 2025, p. 2).","fine","Fine as it is: a correct direct quotation."]
+];
+var CLAB={fine:"Fine as it is",fix:"Needs a fix",not:"Not OK"};
+var RUB=[
+ ["My prompt log shows 6 prompts and how I changed each one.","pq"],
+ ["I checked 4 claims and listed the sources I used.","av"],
+ ["My brief has clear headings and a professional tone.","fp"],
+ ["I corrected the grammar and spelling in my final brief.","la"],
+ ["I explained in 2 minutes how I used AI and what I checked.","oc"]
+];
+var RLAB={pq:"Prompt quality and iteration (25)",av:"Accuracy and verification (25)",fp:"Final product: clarity, tone, organization (25)",la:"Language accuracy and professionalism (10)",oc:"Oral check-in and responsible AI use (15)"};
+var EXIT=[
+ ["1. Which one is plagiarism?",["A quotation with quotation marks and a citation","Your own paraphrase with a citation","Changing a few words of a sentence, with no citation","Citing the AI tool you used"],2],
+ ["2. AI gives you a reference. What do you do first?",["Copy it into your reference list","Find it yourself and check it exists and says what AI claims","Delete it","Ask the AI if it is real"],1],
+ ["3. Which in-text citation is correct APA 7?",["(Hana Ortiz 2026)","(Ortiz, 2026)","(2026, Ortiz)","[Ortiz]"],1]
+];
+
+/* ---------- BUILD ---------- */
+function choicesHTML(k,label,opts){
+  return '<div class="choices" data-k="'+k+'" data-label="'+esc(label)+'">'+opts.map(function(o){return '<button type="button" data-val="'+o[0]+'">'+esc(o[1])+'</button>';}).join("")+'</div>';
+}
+$("#versions").innerHTML=VERS.map(function(v,i){
+  return '<div class="ver" id="ver'+(i+1)+'"><div class="vn">'+(i+1)+'</div><div><div class="vt">'+esc(v.t)+'</div>'+
+  choicesHTML("a1_v"+(i+1),"Activity 1 Version "+(i+1)+" vote",[["ok","OK"],["pl","Plagiarism"],["ns","Not sure"]])+
+  '<div class="fb" id="a1r'+(i+1)+'"></div></div></div>';
+}).join("");
+$("#matchlist").innerHTML=WORDS.map(function(w,i){
+  return '<div class="match"><b>'+w[0]+'</b><select data-k="a2_m'+i+'" data-label="Activity 2 '+w[0]+'" aria-label="Meaning of '+w[0]+'"><option value="">Choose a meaning…</option>'+
+  DEFORDER.map(function(j){return '<option value="'+j+'">'+esc(WORDS[j][1])+'</option>';}).join("")+'</select><span class="mark" id="mk'+i+'"></span></div>';
+}).join("");
+$("#pieces").innerHTML=PSHOW.map(function(j){return '<button type="button" class="piece" data-p="'+j+'">'+PIECES[j]+'</button>';}).join("");
+$("#qsort").innerHTML=QS.map(function(q,i){
+  return '<div class="q"><div class="qt">'+(i+1)+'. '+esc(q[0])+'</div>'+choicesHTML("a6_s"+i,"Activity 6 Q"+(i+1)+" sort",[["big","Too big"],["small","Too small"],["right","Just right"]])+'<span class="mark" id="qs'+i+'"></span></div>';
+}).join("");
+var srcHTML="";
+for(var n=1;n<=3;n++){
+  var p="s"+n+"_";
+  srcHTML+='<div class="src3"><h4>Source '+n+'</h4><div class="row">'+
+   '<div><label class="f">Type</label><select data-k="'+p+'type" data-label="Source '+n+' type"><option value="web">Web page / online article</option><option value="journal">Journal article</option></select></div>'+
+   '<div><label class="f">Author(s)</label><input type="text" data-k="'+p+'au" data-label="Source '+n+' author" placeholder="Lee, M."></div>'+
+   '<div><label class="f">Year (web: add date)</label><input type="text" data-k="'+p+'yr" data-label="Source '+n+' year" placeholder="2025, March 3"></div></div>'+
+   '<label class="f">Title</label><input type="text" data-k="'+p+'ti" data-label="Source '+n+' title" placeholder="The power of short breaks at work">'+
+   '<div class="row"><div><label class="f">Website or journal name</label><input type="text" data-k="'+p+'pub" data-label="Source '+n+' website or journal"></div>'+
+   '<div class="jonly" data-src="'+n+'"><label class="f">Volume(issue), pages</label><input type="text" data-k="'+p+'vol" data-label="Source '+n+' volume issue pages" placeholder="4(2), 12–14"></div></div>'+
+   '<label class="f">URL or DOI</label><input type="text" data-k="'+p+'url" data-label="Source '+n+' URL" placeholder="https://...">'+
+   '<div class="checks"><label><input type="checkbox" data-k="'+p+'c1" data-label="Source '+n+' check: who wrote it">Who wrote it? (a named person or organization)</label>'+
+   '<label><input type="checkbox" data-k="'+p+'c2" data-label="Source '+n+' check: when">When? (recent enough for my topic)</label>'+
+   '<label><input type="checkbox" data-k="'+p+'c3" data-label="Source '+n+' check: confirmed">Can I confirm it? (another source agrees)</label></div>'+
+   '<label class="f">Key point in my own words</label><textarea data-k="'+p+'kp" data-label="Source '+n+' key point"></textarea>'+
+   '<p class="hint" style="margin-top:8px">Reference (APA 7):</p><div class="ref" id="ref'+n+'"></div></div>';
+}
+$("#sources").innerHTML=srcHTML;
+$("#points").innerHTML=[1,2,3].map(function(n){
+  return '<div class="row"><div style="grid-column:span 2"><label class="f">Point '+n+(n===3?' (optional)':'')+'</label><textarea data-k="o_p'+n+'" data-label="Outline Point '+n+'"></textarea></div>'+
+  '<div><label class="f">Source for this point</label><select data-k="o_s'+n+'" data-label="Outline Point '+n+' source"><option value="">Choose…</option><option>Source 1</option><option>Source 2</option><option>Source 3</option></select></div></div>';
+}).join("");
+$("#cases").innerHTML=CASES.map(function(c,i){
+  return '<div class="case"><div><span class="who">Case '+(i+1)+': '+c[0]+'</span> '+esc(c[1])+'</div><div style="margin-top:8px">'+
+   choicesHTML("a8_v"+i,"Activity 8 Case "+(i+1)+" verdict",[["fine","Fine as it is"],["fix","Needs a fix"],["not","Not OK"]])+
+   '</div><label class="f">Because…</label><input type="text" data-k="a8_r'+i+'" data-label="Activity 8 Case '+(i+1)+' reason"></div>';
+}).join("");
+$("#a8key").innerHTML=CASES.map(function(c,i){return '<p><b>Case '+(i+1)+':</b> '+esc(c[3])+'</p>';}).join("");
+$("#rubric").innerHTML='<h3 style="font-size:18px;margin:16px 0 6px">Rubric match: which part of the rubric does each piece of evidence show?</h3>'+RUB.map(function(r,i){
+  return '<div class="q"><div class="qt">“'+esc(r[0])+'”</div><select data-k="a9_r'+i+'" data-label="Activity 9 Rubric match '+(i+1)+'" aria-label="Rubric part"><option value="">Choose…</option>'+
+  ["av","oc","pq","la","fp"].map(function(k){return '<option value="'+k+'">'+RLAB[k]+'</option>';}).join("")+'</select><span class="mark" id="rb'+i+'"></span></div>';
+}).join("");
+$("#exit").innerHTML=EXIT.map(function(q,i){
+  return '<div class="q"><div class="qt">'+q[0]+'</div><div class="radio">'+q[1].map(function(o,j){
+    return '<label><input type="radio" name="x'+i+'" value="'+j+'" data-k="x_q'+(i+1)+'" data-label="Exit ticket Q'+(i+1)+'">'+esc(o)+'</label>';}).join("")+
+  '</div><div class="fb" id="xf'+i+'"></div></div>';
+}).join("");
+["A","B"].forEach(function(a){var el=$("#art"+a);ART[a]=$("h3",el).textContent+"\n"+$(".src",el).textContent+"\n\n"+$$("p",el).map(function(p){return p.textContent.replace(/^\d/,"");}).join("\n\n");});
+
+/* ---------- GENERIC FIELDS ---------- */
+function restore(){
+  $$("[data-k]").forEach(function(el){
+    var k=el.getAttribute("data-k"),v=S[k];
+    if(el.classList.contains("choices")){ $$("button",el).forEach(function(b){b.classList.toggle("on",b.getAttribute("data-val")===v);}); return; }
+    if(v===undefined) return;
+    if(el.type==="checkbox") el.checked=!!v;
+    else if(el.type==="radio") el.checked=(el.value===v);
+    else el.value=v;
+  });
+}
+document.addEventListener("input",function(e){
+  var el=e.target,k=el.getAttribute&&el.getAttribute("data-k"); if(!k) return;
+  if(el.type==="checkbox") S[k]=el.checked; else if(el.type==="radio"){ if(el.checked) S[k]=el.value; } else S[k]=el.value;
+  save();
+});
+document.addEventListener("change",function(e){
+  var el=e.target,k=el.getAttribute&&el.getAttribute("data-k"); if(!k) return;
+  if(el.type==="checkbox") S[k]=el.checked; else if(el.type==="radio"){ if(el.checked) S[k]=el.value; } else S[k]=el.value;
+  save();
+});
+document.addEventListener("click",function(e){
+  var b=e.target.closest&&e.target.closest(".choices button");
+  if(b){ var g=b.parentNode,k=g.getAttribute("data-k"); S[k]=b.getAttribute("data-val"); $$("button",g).forEach(function(x){x.classList.toggle("on",x===b);}); save(); }
+  var c=e.target.closest&&e.target.closest("[data-copy]");
+  if(c) copyText(c.getAttribute("data-copy"));
+});
+
+/* ---------- ACTIVITY 1 ---------- */
+function showA1(){
+  VERS.forEach(function(v,i){
+    var fb=$("#a1r"+(i+1)),mine=S["a1_v"+(i+1)];
+    fb.className="fb show "+(v.a==="ds"?"info":(mine===v.a?"ok":"bad"));
+    fb.innerHTML="<b>"+VLAB[v.a]+".</b> "+esc(v.why);
+    $("#ver"+(i+1)).className="ver "+(v.a==="ok"?"ok":(v.a==="pl"?"bad":""));
+  });
+  var right=VERS.filter(function(v,i){return v.a!=="ds"&&S["a1_v"+(i+1)]===v.a;}).length;
+  var f=$("#a1fb"); f.className="fb info show"; f.textContent="You matched "+right+" of 5. Version 6 is for discussion. Now go to the Talk box.";
+}
+$("#a1reveal").addEventListener("click",function(){S.a1_rev=true;save();showA1();});
+
+/* ---------- ACTIVITY 2 ---------- */
+function checkA2(silent){
+  var n=0;
+  WORDS.forEach(function(w,i){var v=S["a2_m"+i],ok=(v!==undefined&&v!==""&&+v===i); if(ok)n++; var m=$("#mk"+i); m.textContent=v?(ok?"✓":"✗"):""; m.style.color=ok?"var(--ok)":"var(--bad)";});
+  if(!silent){var f=$("#a2fb");f.className="fb show "+(n===10?"ok":"bad");f.textContent=n===10?"10 of 10. Well done!":n+" of 10 correct. Change the ✗ answers and check again.";}
+  return n;
+}
+$("#a2check").addEventListener("click",function(){checkA2(false);});
+
+/* ---------- ACTIVITY 4 ---------- */
+function drawPuzzle(){
+  var order=S.a4_order||[];
+  $("#built").innerHTML=order.length?order.map(function(j){return PIECES[j];}).join(" "):'<span class="hint">Your reference appears here.</span>';
+  $$(".piece").forEach(function(p){p.classList.toggle("used",order.indexOf(+p.getAttribute("data-p"))>-1);});
+}
+$("#pieces").addEventListener("click",function(e){
+  var p=e.target.closest(".piece"); if(!p) return; var j=+p.getAttribute("data-p");
+  var o=S.a4_order||[]; if(o.indexOf(j)>-1) return; o.push(j); S.a4_order=o; save(); drawPuzzle();
+});
+$("#a4reset").addEventListener("click",function(){S.a4_order=[];save();drawPuzzle();$("#a4fb").className="fb";});
+function puzzleOK(){var o=S.a4_order||[];return o.length===5&&o.every(function(v,i){return v===i;});}
+$("#a4check").addEventListener("click",function(){
+  var o=S.a4_order||[],f=$("#a4fb");
+  if(o.length<5){f.className="fb show bad";f.textContent="Use all 5 pieces first.";return;}
+  if(puzzleOK()){f.className="fb show ok";f.textContent="Correct! Author → year → title → journal → DOI.";}
+  else{f.className="fb show bad";f.textContent="Not yet. Tip: who wrote it comes first, then when.";}
+});
+function aiRef(){
+  var co=(S.ai_co||"").trim()||"Company",yr=(S.ai_yr||"").trim()||"Year",tl=(S.ai_tool||"").trim()||"Tool name",u=(S.ai_url||"").trim()||"URL";
+  $("#aiRef").innerHTML=esc(co)+". ("+esc(yr)+"). <i>"+esc(tl)+"</i> [Large language model]. "+esc(u);
+  $("#aiIn").textContent="("+co+", "+yr+")";
+}
+
+/* ---------- ACTIVITY 5 ---------- */
+function showTab(t){ $$(".tabs button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-tab")===t);}); $("#artA").hidden=(t!=="A"); $("#artB").hidden=(t!=="B"); }
+$$(".tabs button").forEach(function(b){b.addEventListener("click",function(){showTab(b.getAttribute("data-tab"));});});
+function flawed(){var a=S.a5_art; $("#flawedText").textContent=a?FLAWED[a]:"Choose your article above."; if(a) showTab(a);}
+$("#a5hint").addEventListener("click",function(){
+  var f=$("#a5fb"),a=S.a5_art;
+  if(!a){f.className="fb show bad";f.textContent="Choose your article first.";return;}
+  var filled=["a5_e1","a5_e2","a5_e3"].filter(function(k){return (S[k]||"").trim().length>5;}).length;
+  if(filled<3){f.className="fb show bad";f.textContent="Write all 3 errors first, then check.";return;}
+  f.className="fb show info";f.innerHTML=FLAWKEY[a];
+});
+$("#copyPrompt5").addEventListener("click",function(){
+  var a=S.a5_art||"A"; copyText((S.a5_prompt||"").trim()+"\n\n"+ART[a]);
+});
+
+/* ---------- ACTIVITY 6 ---------- */
+function checkA6(silent){
+  var n=0; QS.forEach(function(q,i){var v=S["a6_s"+i],ok=v===q[1]; if(ok)n++; var m=$("#qs"+i); m.textContent=v?(ok?" ✓":" ✗ "):""; m.style.color=ok?"var(--ok)":"var(--bad)";});
+  if(!silent){var f=$("#a6fb");f.className="fb show "+(n===6?"ok":"bad");f.textContent=n===6?"6 of 6. Now write your own question.":n+" of 6. Talk about the ✗ ones: can you answer it with 3 sources in 400–500 words?";}
+  return n;
+}
+$("#a6check").addEventListener("click",function(){checkA6(false);});
+
+/* ---------- ACTIVITY 7 ---------- */
+function myQuestion(){return ((S.a6_better||"").trim()||(S.a6_q||"").trim());}
+function buildRef(n,html){
+  var p="s"+n+"_",g=function(k){return (S[p+k]||"").trim();};
+  var au=g("au"),yr=g("yr"),ti=g("ti"),pub=g("pub"),vol=g("vol"),url=g("url"),type=S[p+"type"]||"web";
+  if(!au&&!ti) return "";
+  var E=html?esc:function(x){return x;},I=html?function(x){return "<i>"+esc(x)+"</i>";}:function(x){return x;};
+  var r=E(au||"Author")+(/\.$/.test(au)?" ":". ")+"("+E(yr||"n.d.")+"). ";
+  if(type==="journal"){ r+=E(ti||"Title")+(/[.?!]$/.test(ti)?" ":". ")+I(pub||"Journal")+(vol?", "+E(vol):"")+". "+E(url); }
+  else { r+=I(ti||"Title")+(/[.?!]$/.test(ti)?" ":". ")+(pub&&pub!==au.replace(/\.$/,"")?E(pub)+". ":"")+E(url); }
+  return r.trim();
+}
+function drawRefs(){
+  for(var n=1;n<=3;n++){
+    var r=buildRef(n,true); $("#ref"+n).innerHTML=r||'<span class="hint">Fill in the boxes to build the reference.</span>';
+    var j=$('.jonly[data-src="'+n+'"]'); j.style.display=(S["s"+n+"_type"]==="journal")?"":"none";
+  }
+  $("#myQ").textContent=myQuestion()||"(write it in Activity 6)";
+}
+function outlineText(){
+  var L=["Research question: "+myQuestion(),"","Introduction: "+(S.o_intro||"")];
+  [1,2,3].forEach(function(n){ if((S["o_p"+n]||"").trim()) L.push("Point "+n+": "+S["o_p"+n]+(S["o_s"+n]?" ["+S["o_s"+n]+"]":"")); });
+  L.push("Conclusion: "+(S.o_conc||""));
+  return L.join("\n");
+}
+$("#copyOutline").addEventListener("click",function(){copyText("Here is my outline for a 450-word research brief. Give me 3 suggestions to make it clearer. Do not rewrite it.\n\n"+outlineText());});
+function a4Starter(){
+  var refs=[1,2,3].map(function(n){return buildRef(n,false);}).filter(Boolean).sort();
+  var kp=[1,2,3].map(function(n){var t=(S["s"+n+"_kp"]||"").trim();return t?"Source "+n+": "+t:"";}).filter(Boolean);
+  return "A4 STARTER — "+(S.name||"")+"\n\n"+outlineText()+"\n\nKey points (my words):\n"+kp.join("\n")+"\n\nReference list:\n"+refs.join("\n")+
+   "\n\nAI-use statement (finish at home): I used ____ to ____. I changed ____. I checked ____.";
+}
+$("#a4start").addEventListener("click",function(){copyText(a4Starter());});
+
+/* ---------- ACTIVITY 8 ---------- */
+/* ---------- ACTIVITY 9 ---------- */
+function checkA9(silent){
+  var n=0; RUB.forEach(function(r,i){var v=S["a9_r"+i],ok=v===r[1]; if(ok)n++; var m=$("#rb"+i); m.textContent=v?(ok?" ✓":" ✗"):""; m.style.color=ok?"var(--ok)":"var(--bad)";});
+  if(!silent){var f=$("#a9fb");f.className="fb show "+(n===5?"ok":"bad");f.textContent=n===5?"5 of 5. You know how the midterm is graded.":n+" of 5. Try the ✗ ones again.";}
+  return n;
+}
+$("#a9check").addEventListener("click",function(){checkA9(false);});
+function exitFB(){
+  EXIT.forEach(function(q,i){var v=S["x_q"+(i+1)],f=$("#xf"+i); if(v===undefined){f.className="fb";return;}
+    var ok=+v===q[2]; f.className="fb show "+(ok?"ok":"bad"); f.textContent=ok?"Correct.":"Not quite. Try again.";});
+}
+function vocabUsed(text){return VOCAB.filter(function(v){return v[1].test(text);}).map(function(v){return v[0];});}
+
+/* ---------- PROGRESS ---------- */
+function has(k,min){return ((S[k]||"")+"").trim().length>=(min||1);}
+var DONE={
+ 1:function(){return [1,2,3,4,5,6].every(function(i){return has("a1_v"+i);})&&has("a1_talk",10);},
+ 2:function(){return checkA2(true)===10&&has("a2_sent",10);},
+ 3:function(){return has("a3_q1")&&has("a3_why",5)&&has("a3_q2",5)&&has("a3_pick");},
+ 4:function(){return puzzleOK()&&has("a4_fix",20)&&has("ai_co")&&has("ai_tool");},
+ 5:function(){return has("a5_art")&&has("a5_main",10)&&has("a5_e1",5)&&has("a5_e2",5)&&has("a5_e3",5)&&has("a5_prompt",15)&&has("a5_ai",20)&&has("a5_pmain",5);},
+ 6:function(){return checkA6(true)===6&&has("a6_q",10)&&has("a6_rate");},
+ 7:function(){return [1,2,3].every(function(n){return has("s"+n+"_ti")&&S["s"+n+"_c1"]&&S["s"+n+"_c2"]&&S["s"+n+"_c3"];})&&has("o_p1",5)&&has("o_p2",5)&&has("a7_consult",5);},
+ 8:function(){return [0,1,2,3,4].every(function(i){return has("a8_v"+i)&&has("a8_r"+i,3);});},
+ 9:function(){return checkA9(true)===5&&has("x_q1")&&has("x_q2")&&has("x_q3")&&vocabUsed(S.x_sent||"").length>=3;}
+};
+function refresh(){
+  var d=0; for(var i=1;i<=9;i++){var ok=DONE[i](); if(ok)d++; var a=$('[data-nav="'+i+'"]'); if(a) a.classList.toggle("done",ok);}
+  $("#progtxt").textContent=d+" of 9 done"; $("#progbar").style.width=(d/9*100)+"%";
+  var all=$$("textarea[data-k],input[type=text][data-k]").map(function(el){return el.value;}).join(" \n ");
+  var used=vocabUsed(all);
+  $("#vocabbar").innerHTML='<span class="l">Week 5 words you have used:</span>'+VOCAB.map(function(v){return '<span class="vw'+(used.indexOf(v[0])>-1?' used':'')+'">'+v[0]+'</span>';}).join("");
+  var xs=vocabUsed(S.x_sent||"").length; $("#xcount").textContent="Week 5 words: "+Math.min(xs,3)+" of 3"+(xs>=3?" ✓":"");
+  aiRef(); drawRefs(); flawed(); exitFB();
+}
+
+/* ---------- TIMERS ---------- */
+$$(".timer").forEach(function(t){
+  var total=+t.getAttribute("data-min")*60,left=total,iv=null;
+  t.innerHTML='<b>'+fmt(left)+'</b><button type="button">Start</button><button type="button" aria-label="Reset timer">↺</button>';
+  var disp=$("b",t),bs=$$("button",t);
+  function fmt(s){return Math.floor(s/60)+":"+("0"+s%60).slice(-2);}
+  bs[0].addEventListener("click",function(){
+    if(iv){clearInterval(iv);iv=null;bs[0].textContent="Start";return;}
+    bs[0].textContent="Pause";
+    iv=setInterval(function(){left--;disp.textContent=fmt(Math.max(left,0));if(left<=0){clearInterval(iv);iv=null;bs[0].textContent="Start";t.classList.add("end");toast("Time!");}},1000);
+  });
+  bs[1].addEventListener("click",function(){clearInterval(iv);iv=null;left=total;disp.textContent=fmt(left);bs[0].textContent="Start";t.classList.remove("end");});
+});
+
+/* ---------- EXPORT ---------- */
+function exportText(){
+  var out=["AI SPRINT · WEEK 5 · Reading, Research & Citation","Name: "+(S.name||""),"Date: "+new Date().toLocaleDateString(),""];
+  $$("section.act").forEach(function(sec){
+    if(sec.id==="hw") return;
+    out.push("=== "+$("h2",sec).textContent+" ===");
+    var seen={};
+    $$("[data-k]",sec).forEach(function(el){
+      var k=el.getAttribute("data-k"); if(seen[k]) return; seen[k]=1;
+      var v=S[k]; if(v===undefined||v===""||v===false) return;
+      var lab=el.getAttribute("data-label")||k;
+      if(el.classList.contains("choices")){ var b=$('button[data-val="'+v+'"]',el); v=b?b.textContent:v; }
+      else if(el.tagName==="SELECT"){ var o=el.querySelector('option[value="'+v+'"]'); v=o?o.textContent:v; }
+      else if(el.type==="checkbox") v="yes";
+      else if(el.type==="radio"){ var q=EXIT[+k.slice(3)-1]; v=q?q[1][+v]:v; }
+      out.push(lab+": "+v);
+    });
+    if(sec.id==="a4"&&(S.a4_order||[]).length) out.push("Reference puzzle: "+(S.a4_order||[]).map(function(j){return PIECES[j].replace(/<[^>]+>/g,"");}).join(" "));
+    if(sec.id==="a7"){ var refs=[1,2,3].map(function(n){return buildRef(n,false);}).filter(Boolean); if(refs.length) out.push("Reference list:\n"+refs.sort().join("\n")); }
+    out.push("");
+  });
+  return out.join("\n");
+}
+$("#copyBtn").addEventListener("click",function(){copyText(exportText());});
+function printFallback(txt){
+  var w=window.open("","_blank");
+  if(!w){copyText(txt);toast("Pop-up blocked: answers copied instead");return;}
+  w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>AI Sprint Week 5 - '+esc(S.name||"")+'</title><style>body{font-family:Arial,sans-serif;font-size:12pt;white-space:pre-wrap;margin:2cm}</style></head><body>'+esc(txt)+'</body></html>');
+  w.document.close(); w.focus(); setTimeout(function(){w.print();},400);
+}
+function exportPDF(){
+  var txt=exportText();
+  var J=window.jspdf&&window.jspdf.jsPDF;
+  if(!J||/[^\u0000-\u024F\u2010-\u2027\u2190-\u21FF\u2713\u2717\u00B7]/.test(txt)){printFallback(txt);return;}
+  try{
+    var doc=new J({unit:"pt",format:"a4"}),y=50,W=doc.internal.pageSize.getWidth()-100,H=doc.internal.pageSize.getHeight();
+    var clean=txt.replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/[\u2013\u2014]/g,"-").replace(/\u2192/g,"->").replace(/\u2713/g,"(ok)").replace(/\u2717/g,"(x)").replace(/\u2026/g,"...");
+    clean.split("\n").forEach(function(line){
+      var head=/^===/.test(line)||/^AI SPRINT/.test(line);
+      doc.setFont("helvetica",head?"bold":"normal"); doc.setFontSize(head?12:10.5);
+      doc.splitTextToSize(line||" ",W).forEach(function(l){ if(y>H-50){doc.addPage();y=50;} doc.text(l,50,y); y+=head?17:14; });
+    });
+    doc.save("AI-Sprint-Week5-"+((S.name||"student").replace(/[^A-Za-z0-9]+/g,"-"))+".pdf");
+    toast("PDF downloaded");
+  }catch(e){printFallback(txt);}
+}
+$("#exportBtn").addEventListener("click",exportPDF);
+$("#exportBtn2").addEventListener("click",exportPDF);
+
+restore(); drawPuzzle(); if(S.a1_rev) showA1(); refresh();
+window.__w5={S:S,exportText:exportText,a4Starter:a4Starter,DONE:DONE,buildRef:buildRef};
+})();
+</script>
+</body>
+</html>
